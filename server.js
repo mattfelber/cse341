@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const port = 8080;
 
-//IMPORTS
-const lesson1Controller = require('./controllers/lesson1');
 
 // Example data (based on your description)
 const data = {
@@ -12,14 +10,16 @@ const data = {
   image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA..." // Replace this with your base64 image string
 };
 
-// get data
+// To get data:
+
+  // 1 - each one indidividually from this file:
 app.get('/data', (req, res) => {
   res.json(data);
 });
 
-app.get('/hannah', lesson1Controller.hannahRoute);
+  // 2 - all at once from routes instead:
+app.use('/hannah', require('./routes'));
 
-//
 app.use(express.static('frontend'));
 
 // Start the server
