@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 8080;
 
+  // 2 - all at once from routes instead:
+app.use('/', require('./routes'));
 
 // Example data (based on your description)
 const data = {
@@ -17,8 +19,7 @@ app.get('/data', (req, res) => {
   res.json(data);
 });
 
-  // 2 - all at once from routes instead:
-app.use('/hannah', require('./routes'));
+
 
 app.use(express.static('frontend'));
 
