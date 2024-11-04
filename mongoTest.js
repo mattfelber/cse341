@@ -1,12 +1,14 @@
 const { MongoClient } = require('mongodb');
+const dotenv = require("dotenv")
+
+dotenv.config()
 
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const uri = "mongodb+srv://mathfelber:4mcRgv4Yzdl5FObN@cse341.zglmr.mongodb.net/";
-  
+    const uri = process.env.MONGODB_URI;  
   
     const client = new MongoClient(uri);
   
