@@ -1,0 +1,32 @@
+//@baseUrl = https://cse341-z0l7.onrender.com
+
+@baseUrl = http://localhost:8080
+
+### Get All Contacts
+GET {{baseUrl}}/contacts
+
+### Get a Single Contact by ID
+GET {{baseUrl}}/contacts/67283240a034ccf020dceb46
+
+### Create a New Contact
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+    "firstName": "Matheus",
+    "lastName": "Felber",
+    "email": "mfelber@example.com",
+    "favoriteColor": "blue",
+    "birthday": "1996-96-96"
+}
+
+### Update an Existing Contact
+PUT {{baseUrl}}/contacts/your_contact_id
+Content-Type: application/json
+
+{
+    "favoriteColor": "Purple"
+}
+
+### Delete a Contact
+DELETE {{baseUrl}}/contacts/672839e116f23fb40edc4f53
