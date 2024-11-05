@@ -3,7 +3,8 @@ const app = express();
 const port = 8080;
 const db = require('./data/database');
 
-app.use(express.json()); // Make sure JSON middleware is set
+//Middleware
+app.use(express.json());
 
 db.initDb((err) => {
   if (err) {
@@ -19,18 +20,19 @@ db.initDb((err) => {
 // Set up routes
 app.use('/', require('./routes'));
 
-//w01
+// filler for homepage
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to the Contacts API</h1><p>Use /contacts to interact with the API.</p>');
+});
 
-//W01 contacts end
 
 // To get data:
-  
+
 // 1 - frontend files:
   //app.use(express.static('frontend'));
 
   // 2 - through routes:
   //app.use('/', require('./routes'));
-
 
 // Start the server
 //app.listen(process.env.port || port);
