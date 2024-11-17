@@ -13,15 +13,15 @@ POST {{baseUrl}}/contacts
 Content-Type: application/json
 
 {
-    "firstName": "Matheus",
+    "firstName": "Matt",
     "lastName": "Felber",
-    "email": "mfelber@example.com",
+    "email": "m@example.com",
     "favoriteColor": "blue",
     "birthday": "1996-96-96"
 }
 
 ### Update an Existing Contact
-PUT {{baseUrl}}/contacts/your_contact_id
+PUT {{baseUrl}}/contacts/6739418995d279b076229adc
 Content-Type: application/json
 
 {
@@ -29,4 +29,4 @@ Content-Type: application/json
 }
 
 ### Delete a Contact
-DELETE {{baseUrl}}/contacts/672839e116f23fb40edc4f53
+DELETE {{baseUrl}}/contacts/6739418995d279b076229adc
