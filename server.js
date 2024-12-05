@@ -1,51 +1,40 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 8080;
-const db = require('./data/database');
+const session = require('express-session');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
-//Middleware
-app.use(express.json());
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'] }));
 
-db.initDb((err) => {
-  if (err) {
-    console.error(err);
-  } else {
-    // Start the server only after the database is initialized
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-    });
+// Passport Strategy
+passport.use(new GitHubStrategy(
+  {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
+  },
+  (accessToken, refreshToken, profile, done) => {
+    return done(null, profile);
   }
+));
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
+// Routes
+app.use("/", require("./routes/index.js"));
+
+// Start Server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
-  );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  next();
-});
-
-
-// Set up routes
-app.use('/', require('./routes'));
-
-// filler for homepage
-app.get('/', (req, res) => {
-  // #swagger.tags = ['Hello World']
-  res.send('<h1>Welcome to the Contacts API</h1><p>Use /contacts to interact with the API.</p>');
-});
-
-
-// To get data:
-
-// 1 - frontend files:
-  //app.use(express.static('frontend'));
-
-  // 2 - through routes:
-  //app.use('/', require('./routes'));
-
-// Start the server
-//app.listen(process.env.port || port);
-//console.log(`Server is running on http://localhost:${port}`);
