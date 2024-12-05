@@ -11,21 +11,22 @@ const initDb = async (callback) => {
     return callback(null, _db);
   }
   try {
-    const client = new MongoClient(process.env.MONGODB_URI);
+    const client = new MongoClient(process.env.MONGODB_URI, { useUnifiedTopology: true });
     await client.connect();
-    _db = client;
+    _db = client.db(); // Assign the database object, not the client
     console.log('Connected to MongoDB');
     return callback(null, _db);
   } catch (err) {
+    console.error('Error connecting to MongoDB:', err);
     return callback(err);
   }
 };
 
 const getDatabase = () => {
   if (!_db) {
-    throw Error('Database not initialized');
+    throw new Error('Database not initialized');
   }
-  return _db;
+  return _db; // Return the database object
 };
 
 module.exports = {
